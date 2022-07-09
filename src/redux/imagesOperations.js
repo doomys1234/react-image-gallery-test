@@ -22,6 +22,7 @@
 //         })
 //       })
         
+        
 //         return arrOfImages;
 //     } catch (error) {
 //         return error
@@ -31,8 +32,8 @@
 
 
 
-const operations = {
-    fetch,
+// const operations = {
+//     fetch,
     
-}
-export default operations;
+// }
+// export default operations;

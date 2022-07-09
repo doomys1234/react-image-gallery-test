@@ -5,7 +5,7 @@ import {imagesApi} from './imagesSlice'
 export const store = configureStore({
     reducer: {
     app: appReducer,
-    [imagesApi.reducerPath]: imagesApi.reducer,
+    // [imagesApi.reducerPath]: imagesApi.reducer,
     
   },
   middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(),imagesApi.middleware ],
