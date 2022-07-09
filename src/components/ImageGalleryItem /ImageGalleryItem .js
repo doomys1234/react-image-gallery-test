@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaUserCircle } from 'react-icons/fa';
+import { IoLocationSharp } from 'react-icons/io5'
+import { MdLocationOff } from 'react-icons/md'
 import s from './ImageGalleryItem.module.scss';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -14,8 +17,8 @@ export default function ImageGalleryItem({
   return (
     <li className={s.image_gallery_item} onClick={() => dispatch(setModalImage(fullFormatUrl))}>
       <img className={s.gallery_item_image} src={smallFormatUrl} alt="#" />
-      <p className={s.text}>author:{author}</p>
-      <p className={s.text}>{location}</p>
+      <p className={s.text}><FaUserCircle/>{author}</p>
+      {location ?  <p className={s.text}><IoLocationSharp/>{location}</p> :  <p className={s.text}><MdLocationOff/>Location unknown</p>}
     </li>
   );
 }

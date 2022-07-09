@@ -1,33 +1,32 @@
-import { useEffect } from 'react';
-import s from './Modal.module.scss';
-import { useSelector, useDispatch } from 'react-redux';
-import {toggleModal} from '../../redux/appSlice'
-import {modalImageSelector} from '../../redux/selectors'
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleModal } from "../../redux/appSlice";
+import { modalImageSelector } from "../../redux/selectors";
+
+import s from "./Modal.module.scss";
 
 export default function Modal() {
-  const dispatch = useDispatch()
-  const modalImage = useSelector(state=>modalImageSelector(state))
- 
+  const dispatch = useDispatch();
+  const modalImage = useSelector((state) => modalImageSelector(state));
+
   useEffect(() => {
-     
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   });
 
-  const handleKeyDown = e => {
-    if (e.code === 'Escape') {
-      dispatch(toggleModal())
+  const handleKeyDown = (e) => {
+    if (e.code === "Escape") {
+      dispatch(toggleModal());
     }
   };
 
-  const onBackdropClose = e => {
-    if (e.target.nodeName === 'IMG') {
+  const onBackdropClose = (e) => {
+    if (e.target.nodeName === "IMG") {
       return;
     }
-    dispatch(toggleModal())
-
+    dispatch(toggleModal());
   };
 
   return (

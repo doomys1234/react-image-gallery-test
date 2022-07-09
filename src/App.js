@@ -1,72 +1,81 @@
 import React, { useEffect } from "react";
-import { BallTriangle } from "react-loader-spinner";
 import { ToastContainer } from "react-toastify";
+import MoonLoader from "react-spinners/MoonLoader";
 import { toast } from "react-toastify";
-import { useGetImagesQuery } from "./redux/imagesSlice";
 import { useScrollBy } from "react-use-window-scroll";
 import { useSelector, useDispatch } from "react-redux";
-import { incrementPage, setImages } from "./redux/appSlice";
-import { openModalSelector, pageSelector } from "./redux/selectors";
-
+import {
+  openModalSelector,
+  pageSelector,
+  statusSelector,
+  imagesSelector,
+  errorSelector,
+} from "./redux/selectors";
+import operations from "./redux/imagesOperations";
 
 import "react-toastify/dist/ReactToastify.css";
-import Headerbar from "./components/HeaderBar/HeaderBar.js";
+import HeaderBar from "./components/HeaderBar/HeaderBar.js";
 import ImageGallery from "./components/ImageGallery/ImageGallery.js";
 import Button from "./components/Button/Button.js";
 import Modal from "./components/Modal/Modal.js";
+import { setStatus } from "./redux/appSlice";
+
+const myStyle = {
+      marginLeft: "auto",
+  marginRight: "auto",
+  marginTop: "200px",
+      color: 'rgba(0, 0, 0, 1)',
+    };
 
 export default function App() {
   const scrollBy = useScrollBy();
   const dispatch = useDispatch();
   const page = useSelector((state) => pageSelector(state));
-  const { data, error, isLoading, isSuccess, isFetching, isError } =
-    useGetImagesQuery(page);
+  const status = useSelector((state) => statusSelector(state));
   const openModal = useSelector((state) => openModalSelector(state));
-  const imagesGal = useSelector((state) => state.app.images);
-
-  const showData = data && !isFetching && !isError;
+  const images = useSelector((state) => imagesSelector(state));
+  const error = useSelector((state) => errorSelector(state));
 
   useEffect(() => {
-    if (data) {
-      dispatch(setImages(data));
-    }
+    if (error && status === "rejected") {
+      toast.error(error);
 
-    if (isError) {
-      toast.error(error.message);
       return;
     }
-  }, [data, isError, page]);
+    if (page === 1) {
+      dispatch(setStatus("pending"));
+      dispatch(operations.fetch(page));
+    }
+    if (page > 1) {
+      scrollToBottom();
+    }
+  }, [page, error]);
 
+  const newArr = images.filter(
+    (value, index, self) => index === self.findIndex((i) => i.id === value.id)
+  );
 
   const scrollToBottom = () => {
-    scrollBy({ top: 700, left: 0, behavior: "smooth" });
+    scrollBy({ top: 630, left: 0, behavior: "smooth" });
   };
 
-  const loadMore = () => {
-    dispatch(incrementPage());
+  const loadMore = (page) => {
+    const newPage = page + 1;
+    dispatch(operations.fetch(newPage));
   };
-
-  // const getRefreshedImages = (newImages) => {
-  //   if (isLoading) {
-  //     return
-  //   }
-  //   thirdArr = [...images, ...newImages]
-  //   return thirdArr
-  // }
-
-  // const refreshedImages = getRefreshedImages(newImages)
-  // console.log('refreshedImages', refreshedImages);
 
   return (
     <div>
-      <Headerbar />
-      {/* {showData && <ImageGallery images={imagesGal} />}
-      {isLoading && (
-        <BallTriangle color="#00BFFF" height={100} width={100} timeout={3000} />
-      )}
-      {isSuccess && <Button loadMore={loadMore} />}
-      {openModal && <Modal />} */}
+      <HeaderBar />
+      {status === "success" && <ImageGallery images={newArr} />}
 
+      {status === "pending" && (
+        
+        <MoonLoader loading={status==='pending'}  cssOverride={myStyle} size={100}/>
+       
+      )}
+      {status === "success" && <Button loadMore={() => loadMore(page)} />}
+      {openModal && <Modal />}
       <ToastContainer
         position={"top-right"}
         autoClose={5000}

@@ -5,12 +5,16 @@ export const openModalSelector = state => {
     return state.app.openModal
 }
 export const statusSelector = state => {
-    return state.images.status
+    return state.app.status
 }
 export const pageSelector = state => {
     return state.app.page
 }
 export const imagesSelector = state => {
-    return state.images.images
+    return state.app.images
+}
+
+export const errorSelector = state => {
+    return state.app.error
 }
 

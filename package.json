@@ -2,6 +2,7 @@
   "name": "react-image-gallery-test",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://doomys1234.github.io/react-image-gallery-test",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
@@ -10,9 +11,10 @@
     "axios": "^0.27.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-loader-spinner": "^5.1.5",
+    "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.3",
     "react-toastify": "^9.0.5",
     "react-use-window-scroll": "^1.0.14",
     "redux": "^4.2.0",
@@ -20,6 +22,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
