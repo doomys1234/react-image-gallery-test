@@ -51,10 +51,7 @@ export default function App() {
     }
   }, [page, error]);
 
-  const newArr = images.filter(
-    (value, index, self) => index === self.findIndex((i) => i.id === value.id)
-  );
-
+  
   const scrollToBottom = () => {
     scrollBy({ top: 630, left: 0, behavior: "smooth" });
   };
@@ -67,7 +64,7 @@ export default function App() {
   return (
     <div>
       <HeaderBar />
-      {status === "success" && <ImageGallery images={newArr} />}
+      {status === "success" && <ImageGallery images={images} />}
 
       {status === "pending" && (
         
